@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Visitas</title>
+</head>
+<body>
+    <h1>Contador de Visitas</h1>
+    <p>Visitas: <span id="visit-count">Cargando...</span></p>
+
+    <script>
+        fetch("http://localhost:3000/visits")
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("visit-count").innerText = data.totalVisits;
+            });
+
+        if (!localStorage.getItem("visited")) {
+            fetch("http://localhost:3000/visit", { method: "POST" })
+                .then(response => response.json())
+                .then(data => console.log(data.message));
+
+            localStorage.setItem("visited", "true");
+        }
+    </script>
+</body>
+</html>
